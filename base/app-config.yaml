@@ -1,0 +1,94 @@
+app:
+  title: "Red Hat Developer Hub for AI Software Templates"
+  baseUrl: ${RHDH_URL}
+  analytics:
+    adoptionInsights:
+      maxBufferSize: 20
+      flushInterval: 5000
+      debug: true
+      licensedUsers: 100
+organization:
+  name: Red Hat
+backend:
+  database:
+    client: better-sqlite3
+    connection: ':memory:'
+  baseUrl: ${RHDH_URL}
+  listen:
+    port: 7007
+  csp:
+    connect-src: ["'self'", 'http:', 'https:']
+  cors:
+    origin: ${RHDH_URL}
+  auth:
+    externalAccess:
+      - type: legacy
+        options:
+          subject: legacy-default-config
+          # This is a default value, which you should change by providing your own app-config
+          secret: "pl4s3Ch4ng3M3"
+auth:
+  environment: production
+  providers:
+    github:
+      production:
+        clientId: ${GITHUB__APP__CLIENT__ID}
+        clientSecret: ${GITHUB__APP__CLIENT__SECRET}
+dangerouslyAllowSignInWithoutUserInCatalog: false
+catalog:
+  rules:
+    - allow:
+        - Component
+        - System
+        - Group
+        - Resource
+        - Location
+        - Template
+        - API
+  locations:
+    - type: url
+      target: https://github.com/redhat-ai-dev/ai-lab-template/blob/main/all.yaml
+  providers:
+    github:
+      providerId:
+        organization: ${GITHUB__ORG__NAME}
+        schedule:
+          frequency:
+            minutes: 30
+          initialDelay:
+            seconds: 15
+          timeout:
+            minutes: 15
+    githubOrg:
+      githubUrl: https://${GITHUB__HOST}
+      orgs:
+        - ${GITHUB__ORG__NAME}
+      schedule:
+        frequency:
+          minutes: 30
+        initialDelay:
+          seconds: 15
+        timeout:
+          minutes: 15
+proxy:
+techdocs:
+  builder: 'local'
+  generator:
+    runIn: 'local'
+  publisher:
+    type: 'local'
+integrations:
+  github:
+    - host: ${GITHUB__HOST}
+      apps:
+        - appId: ${GITHUB__APP__ID}
+          clientId: ${GITHUB__APP__CLIENT__ID}
+          clientSecret: ${GITHUB__APP__CLIENT__SECRET}
+          webhookUrl: ${GITHUB__APP__WEBHOOK__URL}
+          webhookSecret: ${GITHUB__APP__WEBHOOK__SECRET}
+          privateKey: ${GITHUB__APP__PRIVATE_KEY}
+lightspeed:
+  servers:
+    - id: ollama
+      url: ${LIGHTSPEED_URL}
+      token: ${LIGHTSPEED_API_KEY}

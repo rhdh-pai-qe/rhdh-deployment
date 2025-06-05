@@ -1,0 +1,25 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+configMapGenerator:
+  - name: rhdh-app-config
+    files:
+      - app-config.yaml=app-config.yaml
+  - name: rhdh-dynamic-plugins
+    files:
+      - dynamic-plugins.yaml=dynamic-plugins.yaml
+
+secretGenerator:
+  - name: rhdh-env
+    envs:
+      - private.env
+
+resources:
+  - rcsconfig.yaml
+  - dynamic-plugins-root-pvc.yaml
+  - deployment.yaml
+  - service.yaml
+  - route.yaml

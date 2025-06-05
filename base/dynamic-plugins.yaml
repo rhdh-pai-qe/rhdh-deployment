@@ -1,0 +1,247 @@
+includes:
+  - dynamic-plugins.default.yaml
+plugins:
+  - package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-global-header
+    disabled: true
+  - package: oci://quay.io/karthik_jk/global-header:latest!red-hat-developer-hub-backstage-plugin-global-header
+    disabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          red-hat-developer-hub.backstage-plugin-global-header:
+            mountPoints:
+              - mountPoint: application/header
+                importName: GlobalHeader
+                config:
+                  position: above-main-content # above-main-content | below-main-content
+
+              - mountPoint: global.header/component
+                importName: SearchComponent
+                config:
+                  priority: 100
+
+              - mountPoint: global.header/component
+                importName: Spacer
+                config:
+                  priority: 99
+                  props:
+                    growFactor: 0
+
+              - mountPoint: global.header/component
+                importName: HeaderIconButton
+                config:
+                  priority: 90
+                  props:
+                    title: Create...
+                    icon: add
+                    to: create
+
+              - mountPoint: global.header/component
+                importName: StarredDropdown
+                config:
+                  priority: 85
+
+              - mountPoint: global.header/component
+                importName: ApplicationLauncherDropdown
+                config:
+                  priority: 82
+
+              - mountPoint: global.header/component
+                importName: SupportButton
+                config:
+                  priority: 80
+
+              - mountPoint: global.header/component
+                importName: NotificationButton
+                config:
+                  priority: 70
+
+              - mountPoint: global.header/component
+                importName: Divider
+                config:
+                  priority: 50
+
+              - mountPoint: global.header/component
+                importName: ProfileDropdown
+                config:
+                  priority: 10
+
+              - mountPoint: global.header/profile
+                importName: MenuItemLink
+                config:
+                  priority: 100
+                  props:
+                    title: Settings
+                    link: /settings
+                    icon: manageAccounts
+
+              - mountPoint: global.header/profile
+                importName: LogoutButton
+                config:
+                  priority: 10
+
+              - mountPoint: global.header/application-launcher
+                importName: MenuItemLink
+                config:
+                  section: Red Hat AI
+                  sectionLink: https://www.redhat.com/en/products/ai
+                  sectionLinkLabel: Read more
+                  priority: 200
+                  props:
+                    title: Podman Desktop
+                    icon: https://podman-desktop.io/img/logo.svg
+                    link: https://podman-desktop.io/
+
+              - mountPoint: global.header/application-launcher
+                importName: MenuItemLink
+                config:
+                  section: Red Hat AI
+                  sectionLinkLabel: Read more
+                  priority: 170
+                  props:
+                    title: OpenShift AI
+                    icon: https://upload.wikimedia.org/wikipedia/commons/d/d8/Red_Hat_logo.svg
+                    link: https://rhods-dashboard-redhat-ods-applications.apps.rosa.redhat-ai-dev.m6no.p3.openshiftapps.com/
+
+              - mountPoint: global.header/application-launcher
+                importName: MenuItemLink
+                config:
+                  section: Red Hat AI
+                  sectionLinkLabel: Read more
+                  priority: 160
+                  props:
+                    title: RHEL AI
+                    icon: https://upload.wikimedia.org/wikipedia/commons/d/d8/Red_Hat_logo.svg
+                    link: https://www.redhat.com/en/products/ai/enterprise-linux-ai
+
+              - mountPoint: global.header/application-launcher
+                importName: MenuItemLink
+                config:
+                  section: Red Hat AI
+                  sectionLinkLabel: Read more
+                  priority: 150
+                  props:
+                    title: Instructlab
+                    icon: https://instructlab.ai/logo.png
+                    link: https://instructlab.ai/
+
+              - mountPoint: global.header/application-launcher
+                importName: MenuItemLink
+                config:
+                  section: Quick Links
+                  priority: 150
+                  props:
+                    title: Quay.io
+                    icon: https://quay.io/static/img/quay_favicon.png
+                    link: https://quay.io
+
+              - mountPoint: global.header/application-launcher
+                importName: MenuItemLink
+                config:
+                  section: Quick Links
+                  priority: 140
+                  props:
+                    title: Slack
+                    icon: https://upload.wikimedia.org/wikipedia/commons/d/d5/Slack_icon_2019.svg
+                    link: https://slack.com/
+
+              - mountPoint: global.header/application-launcher
+                importName: MenuItemLink
+                config:
+                  section: Quick Links
+                  priority: 130
+                  props:
+                    title: ArgoCD
+                    icon: https://argo-cd.readthedocs.io/en/stable/assets/logo.png
+                    link: https://argo-cd.readthedocs.io/en/stable/
+
+              - mountPoint: global.header/application-launcher
+                importName: MenuItemLink
+                config:
+                  section: Quick Links
+                  priority: 120
+                  props:
+                    title: Openshift
+                    icon: https://upload.wikimedia.org/wikipedia/commons/d/d8/Red_Hat_logo.svg
+                    link: https://www.redhat.com/en/technologies/cloud-computing/openshift
+  - disabled: false
+    package: ./dynamic-plugins/dist/backstage-plugin-techdocs-backend-dynamic
+  - disabled: false
+    package: ./dynamic-plugins/dist/backstage-plugin-techdocs
+  - disabled: false
+    package: ./dynamic-plugins/dist/backstage-plugin-catalog-backend-module-github-dynamic
+  - disabled: false
+    package: ./dynamic-plugins/dist/backstage-plugin-catalog-backend-module-github-org-dynamic
+  - disabled: false
+    package: ./dynamic-plugins/dist/backstage-plugin-scaffolder-backend-module-github-dynamic
+  - package: oci://quay.io/jrichter/adoption-insights:test!red-hat-developer-hub-backstage-plugin-adoption-insights
+    disabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          red-hat-developer-hub.backstage-plugin-adoption-insights:
+            appIcons:
+              - name: adoptionInsightsIcon
+                importName: AdoptionInsightsIcon
+            dynamicRoutes:
+              - path: /adoption-insights
+                importName: AdoptionInsightsPage
+                menuItem:
+                  icon: adoptionInsightsIcon
+                  text: Adoption Insights
+            menuItems:
+              adoption-insights:
+                parent: admin
+                icon: adoptionInsightsIcon
+  - package: oci://quay.io/jrichter/adoption-insights:test!red-hat-developer-hub-backstage-plugin-adoption-insights-backend
+    disabled: false
+  - package: oci://quay.io/jrichter/adoption-insights:test!red-hat-developer-hub-backstage-plugin-analytics-module-adoption-insights
+    disabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          red-hat-developer-hub.backstage-plugin-analytics-module-adoption-insights:
+            apiFactories:
+              - importName: AdoptionInsightsAnalyticsApiFactory
+  - package: oci://quay.io/karthik_jk/lightspeed:latest!red-hat-developer-hub-backstage-plugin-lightspeed
+    disabled: false
+    pluginConfig:
+      dynamicPlugins:
+        frontend:
+          red-hat-developer-hub.backstage-plugin-lightspeed:
+            appIcons:
+              - name: LightspeedIcon
+                module: LightspeedPlugin
+                importName: LightspeedIcon
+            dynamicRoutes:
+              - path: /lightspeed
+                importName: LightspeedPage
+                module: LightspeedPlugin
+                menuItem:
+                  icon: LightspeedIcon
+                  text: Lightspeed
+  - package: oci://quay.io/karthik_jk/lightspeed:latest!red-hat-developer-hub-backstage-plugin-lightspeed-backend
+    disabled: false
+    pluginConfig:
+      lightspeed:
+        servers:
+          - id: ollama
+            url: ${LIGHTSPEED_URL}
+            token: ${LIGHTSPEED_API_KEY}
+
+  - disabled: true
+    package: ./dynamic-plugins/dist/backstage-community-plugin-analytics-provider-segment
+  - disabled: true
+    package: ./dynamic-plugins/dist/backstage-community-plugin-scaffolder-backend-module-quay-dynamic
+  - disabled: true
+    package: ./dynamic-plugins/dist/backstage-community-plugin-scaffolder-backend-module-regex-dynamic
+  - disabled: true
+    package: ./dynamic-plugins/dist/backstage-community-plugin-topology
+  - disabled: true
+    package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-catalog-backend-module-marketplace-dynamic
+  - disabled: true
+    package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-marketplace
+  - disabled: true
+    package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-marketplace-backend-dynamic
+  - disabled: true
+    package: ./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-global-floating-action-button
