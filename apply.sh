@@ -1,3 +1,13 @@
+while [[ $# -gt 0 ]]; do
+  key=$1
+  case $key in
+    --keycloak)
+      KEYCLOAK=true
+      shift
+      ;;
+  esac
+done
+
 export RHDH_NAMESPACE="${RHDH_NAMESPACE:-rhdh-ns}"
 export RHDH_URL="https://rhdh-${RHDH_NAMESPACE}.$(oc get ingress.config.openshift.io/cluster -o jsonpath='{.spec.domain}')"
 export GH_PRIVATE_KEY_FILE="${GH_PRIVATE_KEY_FILE:-key.pem}"
@@ -9,7 +19,12 @@ if oc project ${RHDH_NAMESPACE} > /dev/null 2>&1; then
 fi
 oc new-project ${RHDH_NAMESPACE}
 
-kustomize build base | envsubst '${RHDH_NAMESPACE},${RHDH_URL}' | sed "s/$GH_PLACEHOLDER/$GH_PRIVATE_KEY/" | oc apply -f -
+mode=base
+if [ "$KEYCLOAK" = true ]; then
+  mode=keycloak
+fi
+
+kustomize build $mode | envsubst '${RHDH_NAMESPACE},${RHDH_URL}' | sed "s/$GH_PLACEHOLDER/$GH_PRIVATE_KEY/" | oc apply -f -
 
 oc rollout status deployment rhdh
 

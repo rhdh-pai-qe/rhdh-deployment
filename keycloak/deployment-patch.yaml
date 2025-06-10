@@ -1,0 +1,19 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: rhdh
+  namespace: ${RHDH_NAMESPACE}
+spec:
+  template:
+    spec:
+      containers:
+        - name: backstage-backend
+          volumeMounts:
+            - name: backstage-oidc-config
+              mountPath: /opt/app-root/src/app-config-oidc.yaml
+              subPath: app-config-oidc.yaml
+      volumes:
+        - name: backstage-oidc-config
+          configMap:
+            name: rhdh-oidc-config
+            defaultMode: 420

@@ -25,7 +25,6 @@ backend:
       - type: legacy
         options:
           subject: legacy-default-config
-          # This is a default value, which you should change by providing your own app-config
           secret: "pl4s3Ch4ng3M3"
 auth:
   environment: production
@@ -34,7 +33,6 @@ auth:
       production:
         clientId: ${GITHUB__APP__CLIENT__ID}
         clientSecret: ${GITHUB__APP__CLIENT__SECRET}
-dangerouslyAllowSignInWithoutUserInCatalog: false
 catalog:
   rules:
     - allow:

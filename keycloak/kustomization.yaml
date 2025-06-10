@@ -1,0 +1,25 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../base
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+configMapGenerator:
+  - name: rhdh-oidc-config
+    files:
+      - app-config-oidc.yaml=app-config-oidc.yaml
+
+patches:
+  - path: deployment-patch.yaml
+  - patch: |-
+      - op: test
+        path: /spec/template/spec/containers/0/name
+        value: backstage-backend
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --config=/opt/app-root/src/app-config-oidc.yaml
+    target:
+      kind: Deployment

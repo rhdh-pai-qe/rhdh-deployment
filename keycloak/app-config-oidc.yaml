@@ -1,0 +1,36 @@
+auth:
+  environment: production
+  session:
+    secret: ${BACKEND_SECRET}
+  providers:
+    oidc:
+      production:
+        callbackUrl: ${RHDH_URL}/api/auth/oidc/handler/frame
+        clientId: ${KEYCLOAK_CLIENT_ID}
+        clientSecret: ${KEYCLOAK_CLIENT_SECRET}
+        metadataUrl: ${KEYCLOAK_METADATA_URL}
+        prompt: auto
+        signIn:
+          resolvers:
+          - resolver: preferredUsernameMatchingUserEntityName
+            dangerouslyAllowSignInWithoutUserInCatalog: true
+catalog:
+  providers:
+    keycloakOrg:
+      default:
+        baseUrl: ${KEYCLOAK_BASE_URL}
+        clientId: ${KEYCLOAK_CLIENT_ID}
+        clientSecret: ${KEYCLOAK_CLIENT_SECRET}
+        loginRealm: ${KEYCLOAK_REALM}
+        realm: ${KEYCLOAK_REALM}
+        schedule:
+          frequency:
+            minutes: 1
+          initialDelay:
+            seconds: 15
+          timeout:
+            minutes: 1
+        signIn:
+          resolvers:
+          - resolver: emailMatchingUserEntityProfileEmail
+signInPage: oidc
