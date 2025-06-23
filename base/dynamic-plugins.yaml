@@ -174,7 +174,7 @@ plugins:
     package: ./dynamic-plugins/dist/backstage-plugin-catalog-backend-module-github-org-dynamic
   - disabled: false
     package: ./dynamic-plugins/dist/backstage-plugin-scaffolder-backend-module-github-dynamic
-  - package: oci://quay.io/jrichter/adoption-insights:test!red-hat-developer-hub-backstage-plugin-adoption-insights
+  - package: oci://${INSIGHTS_IMAGE_TAG}!red-hat-developer-hub-backstage-plugin-adoption-insights
     disabled: false
     pluginConfig:
       dynamicPlugins:
@@ -193,9 +193,9 @@ plugins:
               adoption-insights:
                 parent: admin
                 icon: adoptionInsightsIcon
-  - package: oci://quay.io/jrichter/adoption-insights:test!red-hat-developer-hub-backstage-plugin-adoption-insights-backend
+  - package: oci://${INSIGHTS_IMAGE_TAG}!red-hat-developer-hub-backstage-plugin-adoption-insights-backend
     disabled: false
-  - package: oci://quay.io/jrichter/adoption-insights:test!red-hat-developer-hub-backstage-plugin-analytics-module-adoption-insights
+  - package: oci://${INSIGHTS_IMAGE_TAG}!red-hat-developer-hub-backstage-plugin-analytics-module-adoption-insights
     disabled: false
     pluginConfig:
       dynamicPlugins:
@@ -203,7 +203,7 @@ plugins:
           red-hat-developer-hub.backstage-plugin-analytics-module-adoption-insights:
             apiFactories:
               - importName: AdoptionInsightsAnalyticsApiFactory
-  - package: oci://quay.io/karthik_jk/lightspeed:latest!red-hat-developer-hub-backstage-plugin-lightspeed
+  - package: oci://${LIGHTSPEED_IMAGE_TAG}!red-hat-developer-hub-backstage-plugin-lightspeed
     disabled: false
     pluginConfig:
       dynamicPlugins:
@@ -220,7 +220,7 @@ plugins:
                 menuItem:
                   icon: LightspeedIcon
                   text: Lightspeed
-  - package: oci://quay.io/karthik_jk/lightspeed:latest!red-hat-developer-hub-backstage-plugin-lightspeed-backend
+  - package: oci://${LIGHTSPEED_IMAGE_TAG}!red-hat-developer-hub-backstage-plugin-lightspeed-backend
     disabled: false
     pluginConfig:
       lightspeed:

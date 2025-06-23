@@ -13,6 +13,8 @@ export RHDH_URL="https://rhdh-${RHDH_NAMESPACE}.$(oc get ingress.config.openshif
 export GH_PRIVATE_KEY_FILE="${GH_PRIVATE_KEY_FILE:-key.pem}"
 export GH_PRIVATE_KEY="$(cat $GH_PRIVATE_KEY_FILE | base64 -w 0)"
 export GH_PLACEHOLDER="$(echo -n PLACEHOLDER | base64 -w 0)"
+export LIGHTSPEED_IMAGE_TAG="${LIGHTSPEED_IMAGE_TAG:-quay.io/karthik_jk/lightspeed:latest}"
+export INSIGHTS_IMAGE_TAG="${INSIGHTS_IMAGE_TAG:-quay.io/jrichter/adoption-insights:test}"
 
 if oc project ${RHDH_NAMESPACE} > /dev/null 2>&1; then
   oc delete project ${RHDH_NAMESPACE}
@@ -24,7 +26,7 @@ if [ "$KEYCLOAK" = true ]; then
   mode=keycloak
 fi
 
-kustomize build $mode | envsubst '${RHDH_NAMESPACE},${RHDH_URL}' | sed "s/$GH_PLACEHOLDER/$GH_PRIVATE_KEY/" | oc apply -f -
+kustomize build $mode | envsubst '${RHDH_NAMESPACE},${RHDH_URL},${LIGHTSPEED_IMAGE_TAG},${INSIGHTS_IMAGE_TAG}' | sed "s/$GH_PLACEHOLDER/$GH_PRIVATE_KEY/" | oc apply -f -
 
 oc rollout status deployment rhdh
 
