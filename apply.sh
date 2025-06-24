@@ -26,7 +26,16 @@ if [ "$KEYCLOAK" = true ]; then
   mode=keycloak
 fi
 
-kustomize build $mode | envsubst '${RHDH_NAMESPACE},${RHDH_URL},${LIGHTSPEED_IMAGE_TAG},${INSIGHTS_IMAGE_TAG}' | sed "s/$GH_PLACEHOLDER/$GH_PRIVATE_KEY/" | oc apply -f -
+if which kustomize >/dev/null 2>&1; then
+  binary=kustomize
+elif ./kustomize version >/dev/null 2>&1; then
+  binary=./kustomize
+else
+  curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+  binary=./kustomize
+fi
+
+$binary build $mode | envsubst '${RHDH_NAMESPACE},${RHDH_URL},${LIGHTSPEED_IMAGE_TAG},${INSIGHTS_IMAGE_TAG}' | sed "s/$GH_PLACEHOLDER/$GH_PRIVATE_KEY/" | oc apply -f -
 
 oc rollout status deployment rhdh
 
