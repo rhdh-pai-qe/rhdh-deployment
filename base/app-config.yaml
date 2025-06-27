@@ -18,6 +18,18 @@ backend:
     port: 7007
   csp:
     connect-src: ["'self'", 'http:', 'https:']
+    script-src:
+      - "'self'"
+      - "'unsafe-eval'"
+      - "https://cdn.jsdelivr.net"
+    img-src:
+      - "'self'"
+      - "data:"
+      - "https://podman-desktop.io"
+      - "https://upload.wikimedia.org"
+      - "https://instructlab.ai"
+      - "https://quay.io"
+      - "https://argo-cd.readthedocs.io"
   cors:
     origin: ${RHDH_URL}
   auth:
