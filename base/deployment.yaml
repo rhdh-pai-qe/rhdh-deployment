@@ -67,7 +67,7 @@ spec:
       containers:
         - resources:
             limits:
-              cpu: '1'
+              cpu: '500m'
               ephemeral-storage: 5Gi
               memory: 2560Mi
             requests:

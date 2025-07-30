@@ -203,7 +203,7 @@ plugins:
           red-hat-developer-hub.backstage-plugin-analytics-module-adoption-insights:
             apiFactories:
               - importName: AdoptionInsightsAnalyticsApiFactory
-  - package: oci://${LIGHTSPEED_IMAGE_TAG}!red-hat-developer-hub-backstage-plugin-lightspeed
+  - package: oci://${LIGHTSPEED_FRONTEND_TAG}!red-hat-developer-hub-backstage-plugin-lightspeed
     disabled: false
     pluginConfig:
       dynamicPlugins:
@@ -220,7 +220,7 @@ plugins:
                 menuItem:
                   icon: LightspeedIcon
                   text: Lightspeed
-  - package: oci://${LIGHTSPEED_IMAGE_TAG}!red-hat-developer-hub-backstage-plugin-lightspeed-backend
+  - package: oci://${LIGHTSPEED_BACKEND_TAG}!red-hat-developer-hub-backstage-plugin-lightspeed-backend
     disabled: false
     pluginConfig:
       lightspeed:
